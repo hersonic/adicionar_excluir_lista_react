@@ -1,25 +1,45 @@
-import logo from './logo.svg';
+import React, { useState } from "react";
 import './App.css';
+import ListItem from "./component/ListItem";
+import NewTaskInput from "./component/NewTaskInput";
 
-function App() {
+const App = () => {
+  const [tasks, setTasks] = useState([]);
+
+
+  function addNewTask(task) {
+    const itensCopy = Array.from(tasks);
+    itensCopy.push({id: tasks.length, value: task});
+    setTasks(itensCopy);
+  }
+
+  function updateTask({target}, index) {
+    const itensCopy = Array.from(tasks);
+    itensCopy.splice(index, 1, { id: index, value: EventTarget.value });
+    setTasks(itensCopy);
+  }
+
+  function deleteTask(index) {
+    const itensCopy = Array.from(tasks);
+    itensCopy.splice(index, 1);
+    setTasks(itensCopy);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="App-header">
+        <NewTaskInput onSubmit={addNewTask} />
+        {tasks.map(({id, value}, index) => (
+          <ListItem
+            key={id}
+            value={value}
+            onChange={(event) => updateTask(event, index)}
+            onDelete={() => deleteTask(index)}
+          />
+        ))}
+      </div>
     </div>
-  );
-}
+  )
+};
 
 export default App;
