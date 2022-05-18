@@ -2,9 +2,7 @@ import React, { useState } from "react";
 
 const NewTaskInput = ({ onSubmit }) =>{
 
-    const [newItem, setNewItem] = useState({
-        lista: ''
-    });
+    const [newItem, setNewItem] = useState("");
 
     function setNewTask({target}) {
         setNewItem(target.value);
@@ -13,6 +11,7 @@ const NewTaskInput = ({ onSubmit }) =>{
     function submit(e) {
         e.preventDefault();
         onSubmit(newItem);
+        setNewItem("");
     }
 
     return (
@@ -20,10 +19,9 @@ const NewTaskInput = ({ onSubmit }) =>{
           <form onSubmit={submit}>
             <input
               className="Todo-input"
-              name="lista"
               placeholder="Digite uma nova tarefa"
               onChange={setNewTask}
-              value={newItem.lista}
+              value={newItem}
             />
             <button type="submit">
               Adicionar
